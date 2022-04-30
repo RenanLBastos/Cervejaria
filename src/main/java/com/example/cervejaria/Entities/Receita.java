@@ -9,8 +9,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "CERVEJA")
-public class Cerveja {
+@Table(name = "RECEITA")
+public class Receita {
 
     //Mapeia meu objeto id com a tabela id do banco de dados
     @Id
@@ -18,41 +18,45 @@ public class Cerveja {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     //Gera os ids autoincremental identicicando a coluna;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "ID")
     private Integer id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "nome", nullable = false)
-    private String nome;
+    @Column(name = "NOME", nullable = false)
+    private String nomeDaCerveja;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "abv", nullable = false)
+    @Column(name = "LITROS", nullable = false)
+    private String litros;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Column(name = "ABV", nullable = false)
     private String abv;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "ibu", nullable = false)
+    @Column(name = "IBU", nullable = false)
     private String ibu;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "og", nullable = false)
+    @Column(name = "OG", nullable = false)
     private String og;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "fg", nullable = false)
+    @Column(name = "FG", nullable = false)
     private String fg;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "cor", nullable = false)
+    @Column(name = "COR", nullable = false)
     private String cor;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "familia_id", referencedColumnName = "id")
+    @JoinColumn(name = "FAMILIA_ID", referencedColumnName = "ID")
     private Familia familia;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     //Mapeamento um para um. Em cascata, se alguma cerveja for deletado, todas as colunas relacionadas ao id também serão
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "complexo_id", referencedColumnName = "id")
+    @JoinColumn(name = "COMPLEXO_ID", referencedColumnName = "ID")
     private Complexo complexo;
 }
