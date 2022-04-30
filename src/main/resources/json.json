@@ -1,0 +1,76 @@
+{
+  "nomeDaCerveja": "Lucky Red",
+  "litros": "20",
+  "abv": "4,4",
+  "ibu": "22",
+  "og": "1044",
+  "fg": "1010",
+  "cor": "13",
+  "familia": {
+    "nome": "Irish Red Ale"
+  },
+  "ingredienteList": [
+    {
+      "ingrediente": "Malte Pilsen",
+      "quantidade": "3Kg"
+    },
+    {
+      "ingrediente": "Malte Munique Light",
+      "quantidade": "1Kg"
+    },
+    {
+      "ingrediente": "Malte Caramel 150",
+      "quantidade": "300g"
+    },
+    {
+      "ingrediente": "Malte Black",
+      "quantidade": "60g"
+    },
+    {
+      "ingrediente": "Lúpulo Admiral",
+      "quantidade": "20g"
+    },
+    {
+      "ingrediente": "Pastilha Whirfloc",
+      "quantidade": "1"
+    },
+    {
+      "ingrediente": "Levedura S-04",
+      "quantidade": "1"
+    }
+  ],
+  "mostura": {
+    "temperaturaRecomendada": "69",
+    "tempo": "60",
+    "temperaturaInicial": "74",
+    "litrosInicial": "20",
+    "litrosLavagem": "10",
+    "temperaturaLavagem": "70"
+  },
+  "fervuraList": [
+    {
+      "tempo": "60",
+      "qtdIngrediente": "10g Admiral"
+    },
+    {
+      "tempo": "30",
+      "qtdIngrediente": "#"
+    },
+    {
+      "tempo": "5",
+      "qtdIngrediente": "10g Admiral"
+    },
+    {
+      "tempo": "5",
+      "qtdIngrediente": "10g Admiral"
+    },
+    {
+      "tempo": "0",
+      "qtdIngrediente": "#"
+    }
+  ],
+  "envase": {
+    "qtdPorLitros": "5g",
+    "dias": "10"
+  }
+}

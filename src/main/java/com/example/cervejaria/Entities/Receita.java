@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -54,9 +55,35 @@ public class Receita {
     @JoinColumn(name = "FAMILIA_ID", referencedColumnName = "ID")
     private Familia familia;
 
+//    @JsonInclude(JsonInclude.Include.NON_NULL)
+//    //Mapeamento um para um. Em cascata, se alguma cerveja for deletado, todas as colunas relacionadas ao id também serão
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "COMPLEXO_ID", referencedColumnName = "ID")
+//    private Complexo complexo;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    //Mapeamento um para um. Em cascata, se alguma cerveja for deletado, todas as colunas relacionadas ao id também serão
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "COMPLEXO_ID", referencedColumnName = "ID")
-    private Complexo complexo;
+    @JoinColumn(name = "INGREDIENTE_ID", referencedColumnName = "ID")
+    private List<Ingrediente> ingredienteList;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "MOSTURA_ID", referencedColumnName = "ID")
+    private Mostura mostura;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FERVURA_ID", referencedColumnName = "ID")
+    private List<Fervura> fervuraList;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "FERMENTACAOMATURACAO_ID", referencedColumnName = "ID")
+    private List<FermentacaoMaturacao> fermentacaoMaturacaoList;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "ENVASE_ID", referencedColumnName = "ID")
+    private Envase envase;
+
 }
