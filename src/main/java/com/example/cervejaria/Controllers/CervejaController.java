@@ -1,8 +1,7 @@
-package com.example.Plant.Controllers;
+package com.example.cervejaria.Controllers;
 
-import com.example.Plant.Entities.Cerveja;
-import com.example.Plant.Repository.CervejaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.cervejaria.Entities.Cerveja;
+import com.example.cervejaria.Repository.CervejaRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -12,25 +11,26 @@ public class CervejaController {
 
     private final CervejaRepository cervejaRepository;
 
+
     public CervejaController(final CervejaRepository cervejaRepository) {
         this.cervejaRepository = cervejaRepository;
     }
 
-    @GetMapping("/cervejas")
+    @GetMapping("/cervejas/api/v1")
     public Iterable<Cerveja> getAllCervejas() {
         return this.cervejaRepository.findAll();
     }
 
-    @GetMapping("/cerveja/{id}")
+    @GetMapping("/cerveja/{id}/api/v1")
     public Optional<Cerveja> getCervejaById(@PathVariable("id") Integer id) {
         return this.cervejaRepository.findById(id);
     }
 
-    @PostMapping("/cerveja")
+    @PostMapping("/cervejas/api/v1")
     public Cerveja createNewCerveja(@RequestBody Cerveja cerveja) {
         Cerveja cerveja1 = new Cerveja();
-        Iterable<Cerveja> cervejaList =  getAllCervejas();
-        for ( Cerveja cervejaObj : cervejaList) {
+        Iterable<Cerveja> cervejaList = getAllCervejas();
+        for (Cerveja cervejaObj : cervejaList) {
             if (cerveja.getNome().equals(cervejaObj.getNome())) {
                 cerveja1.setNome("Cerveja ja cadastrada");
                 return cerveja1;
@@ -39,7 +39,7 @@ public class CervejaController {
         return this.cervejaRepository.save(cerveja);
     }
 
-    @PutMapping("/cerveja/{id}")
+    @PutMapping("/cervejas/{id}/api/v1")
     public Cerveja updateCerveja(@PathVariable("id") Integer id, @RequestBody Cerveja p) {
 
         Optional<Cerveja> cervejaToUpdateOptional = this.cervejaRepository.findById(id);
@@ -63,7 +63,7 @@ public class CervejaController {
         return cervejaToUpdate;
     }
 
-    @DeleteMapping("/cerveja/{id}")
+    @DeleteMapping("/cervejas/{id}")
     public Cerveja deleteCerveja(@PathVariable("id") Integer id) {
         Optional<Cerveja> cervejaToDeleteOptional =
                 this.cervejaRepository.findById(id);

@@ -1,4 +1,4 @@
-package com.example.Plant;
+package com.example.cervejaria;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
