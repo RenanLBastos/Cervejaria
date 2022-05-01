@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import static org.springframework.http.ResponseEntity.status;
+
 @RequestMapping("/receita")
 @RestController
 public class ReceitaController {
@@ -26,29 +28,32 @@ public class ReceitaController {
     }
 
     @PostMapping("/api/v1")
-    public ResponseEntity<Receita> createNewReceita(@RequestBody Receita receita) {
+    public ResponseEntity createNewReceita(@RequestBody Receita receita) {
         Receita newReceita = receitaService.createNewReceita(receita);
-        return new ResponseEntity<>(newReceita, HttpStatus.CREATED);
+        if (newReceita.getNomeDaCerveja().equals("Cerveja ja cadastrada")) {
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Receita ja cadastrada");
+        }
+        return new ResponseEntity(newReceita, HttpStatus.CREATED);
     }
 
     @GetMapping("/receitas/api/v1")
-    public ResponseEntity<Iterable<Receita>> getAllReceitas() {
+    public ResponseEntity getAllReceitas() {
 
         Iterable<Receita> receita = receitaService.getAllReceitas();
         Lists.newArrayList(receita).size();
         if(Lists.newArrayList(receita).size() == 0){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Nenhuma receita Cadastrada Ainda");
         }
         return new ResponseEntity<>(receita, HttpStatus.OK);
     }
 
     @GetMapping("/{id}/api/v1")
-    public ResponseEntity<Optional<Receita>> getReceitaById(@PathVariable("id") Integer id) {
+    public ResponseEntity getReceitaById(@PathVariable("id") Integer id) {
         Optional<Receita> receita = this.receitaService.getReceitaById(id);
         if (receita.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Receita não cadastrada");
         }
-        return new ResponseEntity<>(receita, HttpStatus.OK);
+        return new ResponseEntity(receita, HttpStatus.OK);
     }
 
     @GetMapping("/api/v1/{nome}")
@@ -61,14 +66,14 @@ public class ReceitaController {
     }
 
     @PutMapping("/{id}/api/v1")
-    public ResponseEntity<Receita> updateReceita(@PathVariable("id") Integer id, @RequestBody Receita p) {
+    public ResponseEntity updateReceita(@PathVariable("id") Integer id, @RequestBody Receita p) {
         Receita receita = this.receitaService.updateReceita(id, p);
-        return new ResponseEntity<>(receita, HttpStatus.ACCEPTED);
+        return ResponseEntity.status(HttpStatus.OK).body(receita);
     }
 
     @DeleteMapping("/{id}/api/v1")
-    public ResponseEntity<Receita> deleteReceita(@PathVariable("id") Integer id) {
+    public ResponseEntity deleteReceita(@PathVariable("id") Integer id) {
         Receita receita = this.receitaService.deleteReceita(id);
-        return new ResponseEntity<>(receita, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body("{\"Receita deletada\"}");
     }
 }

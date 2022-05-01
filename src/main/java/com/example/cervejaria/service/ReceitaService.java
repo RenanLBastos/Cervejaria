@@ -3,6 +3,7 @@ package com.example.cervejaria.service;
 import com.example.cervejaria.dto.Receita;
 import com.example.cervejaria.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +25,7 @@ public class ReceitaService {
         Receita receita1 = new Receita();
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
-            if (receita.getNomeDaCerveja().equals(receitaObj.getNomeDaCerveja())) {
+            if (receita.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
                 receita1.setNomeDaCerveja("Cerveja ja cadastrada");
                 return receita1;
             }
@@ -51,7 +52,7 @@ public class ReceitaService {
     public Receita updateReceita(Integer id, @RequestBody Receita p) {
 
         Optional<Receita> receitaToUpdateOptional = this.receitaRepository.findById(id);
-        if (null != receitaToUpdateOptional && !receitaToUpdateOptional.isPresent()) {
+        if (receitaToUpdateOptional.isEmpty()) {
             return null;
         }
         Receita receitaToUpdate = receitaToUpdateOptional.get();
