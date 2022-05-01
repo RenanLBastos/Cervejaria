@@ -1,4 +1,4 @@
-package com.example.cervejaria.Entities;
+package com.example.cervejaria.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "fervura")
-public class Fervura {
+@Table(name = "ingredientes")
+public class Ingrediente {
 
     @Id
     @JsonIgnore
@@ -19,13 +19,14 @@ public class Fervura {
     @Column(name = "id")
     private Integer id;
 
-    //Tempo inicial, meio e fim
+    //Ingredientes da receita, Maltes, Lupulos, Pastilhas, Frutas
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "tempo", nullable = false)
-    private String tempo;
+    @Column(name = "ingrediente", nullable = false)
+    private String ingrediente;
 
-    //Quantidade de ingrediente a ser usado
+    //Quantida, peso, KG, g, pacote
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Column(name = "qtdIngrediente", nullable = false)
-    private String qtdIngrediente;
+    @Column(name = "quantidade", nullable = false)
+    private String quantidade;
+
 }

@@ -1,34 +1,26 @@
-package com.example.cervejaria.Controllers;
+package com.example.cervejaria.service;
 
-import com.example.cervejaria.Entities.Receita;
-import com.example.cervejaria.Repository.ReceitaRepository;
-import org.springframework.web.bind.annotation.*;
+import com.example.cervejaria.dto.Receita;
+import com.example.cervejaria.repository.ReceitaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Locale;
 import java.util.Optional;
 
-@RestController
-public class ReceitaController {
+@Service
+public class ReceitaService {
 
     private final ReceitaRepository receitaRepository;
 
-
-    public ReceitaController(final ReceitaRepository receitaRepository) {
+    @Autowired
+    public ReceitaService(ReceitaRepository receitaRepository) {
         this.receitaRepository = receitaRepository;
     }
 
-    @GetMapping("/receitas/api/v1")
-    public Iterable<Receita> getAllReceitas() {
-        return this.receitaRepository.findAll();
-    }
-
-    @GetMapping("/receita/{id}/api/v1")
-    public Optional<Receita> getReceitaById(@PathVariable("id") Integer id) {
-        return this.receitaRepository.findById(id);
-    }
-
-    @PostMapping("/receita/api/v1")
-    public Receita createNewReceita(@RequestBody Receita receita) {
+    public Receita createNewReceita(Receita receita) {
         Receita receita1 = new Receita();
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
@@ -39,10 +31,14 @@ public class ReceitaController {
         }
         return this.receitaRepository.save(receita);
     }
+    public Iterable<Receita> getAllReceitas() {
+        return this.receitaRepository.findAll();
+    }
+    public Optional<Receita> getReceitaById(Integer id) {
+        return this.receitaRepository.findById(id);
+    }
 
-    @GetMapping("/receita/api/v1/{nome}")
-    public Optional<Receita> getReceitaByNome (@PathVariable("nome") String nome) {
-        Receita receita1 = new Receita();
+    public Optional<Receita> getReceitaByNome (String nome) {
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
             if (nome.toLowerCase(Locale.ROOT).equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT))) {
@@ -52,8 +48,7 @@ public class ReceitaController {
         return Optional.empty();
     }
 
-    @PutMapping("/receita/{id}/api/v1")
-    public Receita updateReceita(@PathVariable("id") Integer id, @RequestBody Receita p) {
+    public Receita updateReceita(Integer id, @RequestBody Receita p) {
 
         Optional<Receita> receitaToUpdateOptional = this.receitaRepository.findById(id);
         if (null != receitaToUpdateOptional && !receitaToUpdateOptional.isPresent()) {
@@ -67,8 +62,7 @@ public class ReceitaController {
         return receitaToUpdate;
     }
 
-    @DeleteMapping("/receita/{id}/api/v1")
-    public Receita deleteReceita(@PathVariable("id") Integer id) {
+    public Receita deleteReceita(Integer id) {
         Optional<Receita> receitaToDeleteOptional =
                 this.receitaRepository.findById(id);
         if (!receitaToDeleteOptional.isPresent()) {
@@ -78,4 +72,6 @@ public class ReceitaController {
         this.receitaRepository.delete(receita);
         return receita;
     }
+
+
 }

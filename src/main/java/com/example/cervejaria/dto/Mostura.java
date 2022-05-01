@@ -1,4 +1,4 @@
-package com.example.cervejaria.Entities;
+package com.example.cervejaria.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
