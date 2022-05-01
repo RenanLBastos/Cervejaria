@@ -8,8 +8,7 @@
 <br/>
 
 ### _O projeto foi desenvolvido usando hibernate, onde todo o relacionamento das entidades_
-### _foram feitas através do java e assim foi gerado um banco de dados relacional para inserção de dados_
-### _tanto banco de dados H2 em memória quanto no banco de dados Mysql._
+### _foram feitas através do java e assim foi gerado um banco de dados relacional para inserção de dados no banco de dados._
 
 
 ## Cadastrar nova receita
