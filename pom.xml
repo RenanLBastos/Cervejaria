@@ -9,20 +9,20 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>Plant</artifactId>
+	<artifactId>Receitas</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Plant</name>
+	<name>Receitas</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
-			<version>2.9.8</version>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.fasterxml.jackson.core</groupId>-->
+<!--			<artifactId>jackson-databind</artifactId>-->
+<!--			<version>2.13.2.2</version>-->
+<!--		</dependency>-->
 
 		<dependency>
 			<groupId>mysql</groupId>

@@ -1,6 +1,7 @@
 package com.example.cervejaria.Entities;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -55,14 +56,10 @@ public class Receita {
     @JoinColumn(name = "FAMILIA_ID", referencedColumnName = "ID")
     private Familia familia;
 
-//    @JsonInclude(JsonInclude.Include.NON_NULL)
-//    //Mapeamento um para um. Em cascata, se alguma cerveja for deletado, todas as colunas relacionadas ao id também serão
-//    @OneToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "COMPLEXO_ID", referencedColumnName = "ID")
-//    private Complexo complexo;
 
+    @JsonProperty("ingredientes")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "INGREDIENTE_ID", referencedColumnName = "ID")
     private List<Ingrediente> ingredienteList;
 
@@ -71,13 +68,15 @@ public class Receita {
     @JoinColumn(name = "MOSTURA_ID", referencedColumnName = "ID")
     private Mostura mostura;
 
+    @JsonProperty("fervura")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "FERVURA_ID", referencedColumnName = "ID")
     private List<Fervura> fervuraList;
 
+    @JsonProperty("fermentacaoMaturacao")
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "FERMENTACAOMATURACAO_ID", referencedColumnName = "ID")
     private List<FermentacaoMaturacao> fermentacaoMaturacaoList;
 
@@ -86,4 +85,11 @@ public class Receita {
     @JoinColumn(name = "ENVASE_ID", referencedColumnName = "ID")
     private Envase envase;
 
+    public void setAbv(String abv) {
+        this.abv = abv + "%";
+    }
+
+    public String getAbv() {
+        return abv;
+    }
 }

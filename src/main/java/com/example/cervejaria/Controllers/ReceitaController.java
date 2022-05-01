@@ -4,6 +4,7 @@ import com.example.cervejaria.Entities.Receita;
 import com.example.cervejaria.Repository.ReceitaRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -21,12 +22,12 @@ public class ReceitaController {
         return this.receitaRepository.findAll();
     }
 
-    @GetMapping("/receitas/{id}/api/v1")
+    @GetMapping("/receita/{id}/api/v1")
     public Optional<Receita> getReceitaById(@PathVariable("id") Integer id) {
         return this.receitaRepository.findById(id);
     }
 
-    @PostMapping("/receitas/api/v1")
+    @PostMapping("/receita/api/v1")
     public Receita createNewReceita(@RequestBody Receita receita) {
         Receita receita1 = new Receita();
         Iterable<Receita> cervejaList = getAllReceitas();
@@ -39,38 +40,41 @@ public class ReceitaController {
         return this.receitaRepository.save(receita);
     }
 
-    @PutMapping("/receitas/{id}/api/v1")
+    @GetMapping("/receita/api/v1/{nome}")
+    public Optional<Receita> getReceitaByNome (@PathVariable("nome") String nome) {
+        Receita receita1 = new Receita();
+        Iterable<Receita> cervejaList = getAllReceitas();
+        for (Receita receitaObj : cervejaList) {
+            if (nome.toLowerCase(Locale.ROOT).equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT))) {
+                return getReceitaById(receitaObj.getId());
+            }
+        }
+        return Optional.empty();
+    }
+
+    @PutMapping("/receita/{id}/api/v1")
     public Receita updateReceita(@PathVariable("id") Integer id, @RequestBody Receita p) {
 
-        Optional<Receita> cervejaToUpdateOptional = this.receitaRepository.findById(id);
-        if (null != cervejaToUpdateOptional && !cervejaToUpdateOptional.isPresent()) {
+        Optional<Receita> receitaToUpdateOptional = this.receitaRepository.findById(id);
+        if (null != receitaToUpdateOptional && !receitaToUpdateOptional.isPresent()) {
             return null;
         }
-        Receita receitaToUpdate = cervejaToUpdateOptional.get();
+        Receita receitaToUpdate = receitaToUpdateOptional.get();
         if (p.getAbv() != null) {
             receitaToUpdate.setAbv(p.getAbv());
         }
-//        if (p.getQuantity() != null) {
-//            cervejaToUpdate.setQuantity(p.getQuantity());
-//        }
-//        if (p.getNome() != null) {
-//            cervejaToUpdate.setName(p.getName());
-//        }
-//        if (p.getWateringFrequency() != null) {
-//            cervejaToUpdate.setWateringFrequency(p.getWateringFrequency());
-//        }
-//        Plant updatedPlant = this.cervejaRepository.save(cervejaToUpdate);
+        //TODO falta criar o outros métodos
         return receitaToUpdate;
     }
 
-    @DeleteMapping("/receitas/{id}/api/v1")
-    public Receita deleteCerveja(@PathVariable("id") Integer id) {
-        Optional<Receita> cervejaToDeleteOptional =
+    @DeleteMapping("/receita/{id}/api/v1")
+    public Receita deleteReceita(@PathVariable("id") Integer id) {
+        Optional<Receita> receitaToDeleteOptional =
                 this.receitaRepository.findById(id);
-        if (!cervejaToDeleteOptional.isPresent()) {
+        if (!receitaToDeleteOptional.isPresent()) {
             return null;
         }
-        Receita receita = cervejaToDeleteOptional.get();
+        Receita receita = receitaToDeleteOptional.get();
         this.receitaRepository.delete(receita);
         return receita;
     }
