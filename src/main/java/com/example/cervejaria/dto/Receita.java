@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -13,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "RECEITA")
 public class Receita {
+
 
     //Mapeia meu objeto id com a tabela id do banco de dados
     @Id
@@ -22,6 +25,7 @@ public class Receita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
+
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Column(name = "NOME", nullable = false)
