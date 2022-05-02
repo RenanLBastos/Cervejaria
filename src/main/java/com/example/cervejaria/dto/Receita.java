@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -89,11 +87,11 @@ public class Receita {
     @JoinColumn(name = "ENVASE_ID", referencedColumnName = "ID")
     private Envase envase;
 
-    public void setAbv(String abv) {
-        this.abv = abv + "%";
-    }
-
     public String getAbv() {
         return abv;
+    }
+
+    public void setAbv(String abv) {
+        this.abv = abv + "%";
     }
 }

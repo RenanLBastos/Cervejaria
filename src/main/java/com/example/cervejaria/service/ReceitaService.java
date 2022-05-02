@@ -1,17 +1,15 @@
 package com.example.cervejaria.service;
 
 import com.example.cervejaria.dto.Receita;
+import com.example.cervejaria.exception.ResourceNotFoundException;
 import com.example.cervejaria.repository.ReceitaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.validation.Valid;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -25,7 +23,7 @@ public class ReceitaService {
         this.receitaRepository = receitaRepository;
     }
 
-    public Receita createNewReceita(    Receita receita) throws Exception {
+    public Receita createNewReceita(Receita receita) throws Exception {
         Receita receita1 = new Receita();
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
@@ -46,8 +44,6 @@ public class ReceitaService {
         return this.receitaRepository.findAll();
     }
 
-    //    @ExceptionHandler(value = { NullPointerException.class, NullPointerException.class })
-
     public Optional<Receita> getReceitaById(Integer id) {
         Optional<Receita> teste = this.receitaRepository.findById(id);
 
@@ -57,7 +53,7 @@ public class ReceitaService {
             }
             return teste;
         } catch (NullPointerException e) {
-            throw new ResponseStatusException(
+            throw new ResourceNotFoundException(
                     HttpStatus.NOT_FOUND, "Receita Not Found", e);
         }
     }
@@ -65,7 +61,7 @@ public class ReceitaService {
     public Optional<Receita> getReceitaByNome(String nome) {
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
-            if (nome.toLowerCase(Locale.ROOT).equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT))) {
+            if (nome.toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
                 return getReceitaById(receitaObj.getId());
             }
         }
