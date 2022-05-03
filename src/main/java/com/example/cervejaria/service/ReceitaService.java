@@ -90,6 +90,8 @@ public class ReceitaService {
             receitaToUpdate.setAbv(p.getAbv());
         }
         //TODO falta criar o outros métodos
+        //TODO tratativa de erros
+        //TODO criar dto usuario, service e repository
         return receitaToUpdate;
     }
 
