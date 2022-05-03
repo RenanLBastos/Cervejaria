@@ -15,10 +15,13 @@ import java.util.Map;
 @Setter
 public final class ResourceNotFoundException extends RuntimeException {
 
-    private final int status;
+    private int status;
     @Nullable
-    private final String reason;
+    private String reason;
 
+    public ResourceNotFoundException() {
+
+    }
     public ResourceNotFoundException(HttpStatus status) {
         this(status, (String) null, (Throwable) null);
     }

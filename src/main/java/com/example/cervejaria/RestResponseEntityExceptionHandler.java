@@ -1,5 +1,7 @@
-package com.example.cervejaria.exception;
+package com.example.cervejaria;
 
+import com.example.cervejaria.exception.ApiError;
+import com.example.cervejaria.exception.ResourceNotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

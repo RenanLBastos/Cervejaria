@@ -7,12 +7,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Locale;
 import java.util.Optional;
 
+@Validated
 @Service
 public class ReceitaService {
 
@@ -45,27 +50,33 @@ public class ReceitaService {
     }
 
     public Optional<Receita> getReceitaById(Integer id) {
-        Optional<Receita> teste = this.receitaRepository.findById(id);
+        Optional<Receita> receitaRepositoryById = this.receitaRepository.findById(id);
 
         try {
-            if (teste.isEmpty()) {
-                throw new NullPointerException();
+            if (receitaRepositoryById.isEmpty()) {
+                throw new ResourceNotFoundException();
+            } else {
+                return receitaRepositoryById;
             }
-            return teste;
-        } catch (NullPointerException e) {
+        } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
                     HttpStatus.NOT_FOUND, "Receita Not Found", e);
         }
     }
 
     public Optional<Receita> getReceitaByNome(String nome) {
-        Iterable<Receita> cervejaList = getAllReceitas();
-        for (Receita receitaObj : cervejaList) {
-            if (nome.toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
-                return getReceitaById(receitaObj.getId());
+        try {
+            Iterable<Receita> cervejaList = getAllReceitas();
+            for (Receita receitaObj : cervejaList) {
+                if (nome.toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
+                    return getReceitaById(receitaObj.getId());
+                }
             }
+            throw new ResourceNotFoundException();
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException(
+                    HttpStatus.NOT_FOUND, "Receita Not Found", e);
         }
-        return Optional.empty();
     }
 
     public Receita updateReceita(Integer id, @RequestBody Receita p) {

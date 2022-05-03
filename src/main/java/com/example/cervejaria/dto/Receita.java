@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -24,7 +25,7 @@ public class Receita {
     @Column(name = "ID")
     private Integer id;
 
-
+    @NotNull
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Column(name = "NOME", nullable = false)
     private String nomeDaCerveja;
