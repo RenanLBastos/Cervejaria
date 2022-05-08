@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -16,16 +16,12 @@ import java.util.List;
 public class Receita {
 
 
-    //Mapeia meu objeto id com a tabela id do banco de dados
+
     @Id
-    //Não mostra responses nulos
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    //Gera os ids autoincremental identicicando a coluna;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
     private Integer id;
 
-    @NotNull
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Column(name = "NOME", nullable = false)
     private String nomeDaCerveja;
@@ -64,7 +60,7 @@ public class Receita {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "INGREDIENTE_ID", referencedColumnName = "ID")
-    private List<Ingrediente> ingredienteList;
+    private List<Ingrediente> ingredienteList = new ArrayList<>();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToOne(cascade = CascadeType.ALL)
@@ -75,13 +71,13 @@ public class Receita {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "FERVURA_ID", referencedColumnName = "ID")
-    private List<Fervura> fervuraList;
+    private List<Fervura> fervuraList = new ArrayList<>();
 
     @JsonProperty("fermentacaoMaturacao")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "FERMENTACAOMATURACAO_ID", referencedColumnName = "ID")
-    private List<FermentacaoMaturacao> fermentacaoMaturacaoList;
+    private List<FermentacaoMaturacao> fermentacaoMaturacaoList = new ArrayList<>();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @OneToOne(cascade = CascadeType.ALL)

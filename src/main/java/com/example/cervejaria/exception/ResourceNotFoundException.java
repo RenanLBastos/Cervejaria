@@ -15,12 +15,14 @@ import java.util.Map;
 @Setter
 public final class ResourceNotFoundException extends RuntimeException {
 
-    private int status;
+    private final int status;
     @Nullable
-    private String reason;
+    private final String reason;
 
     public ResourceNotFoundException() {
 
+        status = 0;
+        reason = null;
     }
     public ResourceNotFoundException(HttpStatus status) {
         this(status, (String) null, (Throwable) null);
@@ -75,6 +77,7 @@ public final class ResourceNotFoundException extends RuntimeException {
         return this.reason;
     }
 
+    @Override
     public String getMessage() {
         HttpStatus code = HttpStatus.resolve(this.status);
         String msg = (code != null ? code : this.status) + (this.reason != null ? " \"" + this.reason + "\"" : "");

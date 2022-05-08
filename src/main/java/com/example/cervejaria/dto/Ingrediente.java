@@ -22,7 +22,7 @@ public class Ingrediente {
     //Ingredientes da receita, Maltes, Lupulos, Pastilhas, Frutas
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Column(name = "ingrediente", nullable = false)
-    private String ingrediente;
+    private String ingredientes;
 
     //Quantida, peso, KG, g, pacote
     @JsonInclude(JsonInclude.Include.NON_NULL)

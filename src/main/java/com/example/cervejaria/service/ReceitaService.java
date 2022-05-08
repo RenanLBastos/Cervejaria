@@ -1,9 +1,11 @@
 package com.example.cervejaria.service;
 
+import com.example.cervejaria.component.MontaReceitaComponent;
 import com.example.cervejaria.dto.Receita;
 import com.example.cervejaria.exception.ApiError;
 import com.example.cervejaria.exception.ResourceNotFoundException;
 import com.example.cervejaria.repository.ReceitaRepository;
+import com.example.cervejaria.request.ReceitaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -23,20 +25,23 @@ public class ReceitaService {
     private final ReceitaRepository receitaRepository;
 
     @Autowired
+    private MontaReceitaComponent montaReceitaComponent;
+
+    @Autowired
     public ReceitaService(ReceitaRepository receitaRepository) {
         this.receitaRepository = receitaRepository;
     }
 
-    public ResponseEntity<ApiError> createNewReceita(Receita receita) throws Exception {
+    public ResponseEntity<ApiError> createNewReceita(ReceitaRequest receitaRequest) {
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
-            if (receita.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
+            if (receitaRequest.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
                 return new ResponseEntity<>(new ApiError(200, "Receita ja cadastrada", "create ok"), HttpStatus.OK);
             }
         }
         try {
-            this.receitaRepository.save(receita);
-            return new ResponseEntity<>(new ApiError(200, "Receita " + receita.getNomeDaCerveja() + " cadastrada com sucesso", "create ok"), HttpStatus.OK);
+            this.receitaRepository.save(this.montaReceitaComponent.montaReceitaRequest(receitaRequest));
+            return new ResponseEntity<>(new ApiError(200, "Receita " + receitaRequest.getNomeDaCerveja() + " cadastrada com sucesso", "create ok"), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Nome da cerveja Obrigatório", e);
@@ -58,7 +63,7 @@ public class ReceitaService {
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Receita Not Found", e);
+                    HttpStatus.NOT_FOUND, "${RECEITA_NOT_FOUND}", e);
         }
     }
 
@@ -73,11 +78,11 @@ public class ReceitaService {
             throw new ResourceNotFoundException();
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Receita Not Found", e);
+                    HttpStatus.NOT_FOUND, "${RECEITA_NOT_FOUND}", e);
         }
     }
 
-    public ResponseEntity<ApiError> updateReceita(Integer id, @RequestBody Receita p) {
+    public ResponseEntity<ApiError> updateReceita(Integer id, @RequestBody ReceitaRequest p) {
 
         Optional<Receita> receitaToUpdateOptional = this.receitaRepository.findById(id);
         try {
@@ -118,29 +123,28 @@ public class ReceitaService {
                     receitaToUpdate.setFamilia(p.getFamilia());
                 }
 
-                if (p.getIngredienteList() != null && !p.getIngredienteList().isEmpty()) {
-                    receitaToUpdate.setIngredienteList(p.getIngredienteList());
+                if (p.getIngredientes() != null && !p.getIngredientes().isEmpty()) {
+                    receitaToUpdate.setIngredienteList(p.getIngredientes());
                 }
 
                 if (p.getMostura() != null) {
                     receitaToUpdate.setMostura(p.getMostura());
                 }
 
-                if (p.getFervuraList() != null && !p.getFervuraList().isEmpty()) {
-                    receitaToUpdate.setFervuraList(p.getFervuraList());
+                if (p.getFervura() != null && !p.getFervura().isEmpty()) {
+                    receitaToUpdate.setFervuraList(p.getFervura());
                 }
 
-                if (p.getFermentacaoMaturacaoList() != null && !p.getFermentacaoMaturacaoList().isEmpty()) {
-                    receitaToUpdate.setFermentacaoMaturacaoList(p.getFermentacaoMaturacaoList());
+                if (p.getFermentacaoMaturacao() != null && !p.getFermentacaoMaturacao().isEmpty()) {
+                    receitaToUpdate.setFermentacaoMaturacaoList(p.getFermentacaoMaturacao());
                 }
 
                 if (p.getEnvase() != null) {
                     receitaToUpdate.setEnvase(p.getEnvase());
                 }
 
-                this.receitaRepository.save(receitaToUpdate);
+                this.receitaRepository.save(montaReceitaComponent.montaReceitaRequest(p));
 
-                //TODO criar dto usuario, service e repository
                 return new ResponseEntity<>(new ApiError(200, "Receida da " + receitaToUpdate.getNomeDaCerveja() + " atualizada com sucesso", "put ok"), HttpStatus.OK);
             }
         } catch (ResourceNotFoundException e) {
