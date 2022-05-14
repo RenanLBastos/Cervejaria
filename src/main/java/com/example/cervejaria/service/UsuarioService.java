@@ -2,6 +2,7 @@ package com.example.cervejaria.service;
 
 import com.example.cervejaria.component.MontaUsuarioComponent;
 import com.example.cervejaria.dto.UsuarioDto;
+import com.example.cervejaria.enumeration.ReceitaEnum;
 import com.example.cervejaria.exception.ApiError;
 import com.example.cervejaria.exception.ResourceNotFoundException;
 import com.example.cervejaria.repository.UsuarioRepository;
@@ -44,12 +45,12 @@ public class UsuarioService implements UserDetailsService {
         Iterable<UsuarioDto> allUsuarios = getAllUsuarios();
         for (UsuarioDto usuarioDtoObj : allUsuarios) {
             if (usuarioRequest.getEmail().toLowerCase(Locale.ROOT).trim().equals(usuarioDtoObj.getEmail().toLowerCase(Locale.ROOT).trim())) {
-                return new ResponseEntity<>(new ApiError(200, "${USUARIO} " + usuarioRequest.getNome() + " já cadastrado", "create ok"), HttpStatus.OK);
+                return new ResponseEntity<>(new ApiError(200, ReceitaEnum.USUARIO.getName() + usuarioRequest.getNome() + " já cadastrado", "create ok"), HttpStatus.OK);
             }
         }
         try {
             this.usuarioRepository.save(this.montaUsuarioComponent.montaUsuarioComponent(usuarioRequest));
-            return new ResponseEntity<>(new ApiError(200, "${USUARIO} " + usuarioRequest.getNome() + " cadastrado com sucesso", "create ok"), HttpStatus.OK);
+            return new ResponseEntity<>(new ApiError(200, ReceitaEnum.USUARIO.getName() + usuarioRequest.getNome() + " cadastrado com sucesso", "create ok"), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Nome do usuário obrigatório", e);
@@ -72,7 +73,7 @@ public class UsuarioService implements UserDetailsService {
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Usuário Not Found", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.USUARIO_NOT_FOUND.getName(), e);
         }
     }
 
@@ -87,7 +88,7 @@ public class UsuarioService implements UserDetailsService {
             throw new ResourceNotFoundException();
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Usuário Not Found", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.USUARIO_NOT_FOUND.getName(), e);
         }
     }
 
@@ -122,11 +123,11 @@ public class UsuarioService implements UserDetailsService {
 
                 this.usuarioRepository.save(montaUsuarioComponent.montaUsuarioComponent(p));
 
-                return new ResponseEntity<>(new ApiError(200, "${USUARIO} " + usuarioDtoToUpdate.getNome() + " Atualizado", "put ok"), HttpStatus.OK);
+                return new ResponseEntity<>(new ApiError(200, ReceitaEnum.USUARIO.getName() + usuarioDtoToUpdate.getNome() + " Atualizado", "put ok"), HttpStatus.OK);
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Usuário Not Found", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.USUARIO_NOT_FOUND.getName(), e);
         }
     }
 
@@ -138,12 +139,12 @@ public class UsuarioService implements UserDetailsService {
             } else {
                 UsuarioDto usuarioDto = usuarioToDeleteOptional.get();
                 this.usuarioRepository.delete(usuarioDto);
-                return new ResponseEntity<>(new ApiError(200, "${USUARIO}" + usuarioDto.getNome() + " deletado com sucesso", "delete ok"), HttpStatus.OK);
+                return new ResponseEntity<>(new ApiError(200, ReceitaEnum.USUARIO.getName() + usuarioDto.getNome() + " deletado com sucesso", "delete ok"), HttpStatus.OK);
 
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "usuario Not Found", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.USUARIO_NOT_FOUND.getName(), e);
         }
     }
 }

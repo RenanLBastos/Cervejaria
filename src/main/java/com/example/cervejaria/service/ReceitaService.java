@@ -2,6 +2,7 @@ package com.example.cervejaria.service;
 
 import com.example.cervejaria.component.MontaReceitaComponent;
 import com.example.cervejaria.dto.Receita;
+import com.example.cervejaria.enumeration.ReceitaEnum;
 import com.example.cervejaria.exception.ApiError;
 import com.example.cervejaria.exception.ResourceNotFoundException;
 import com.example.cervejaria.repository.ReceitaRepository;
@@ -36,7 +37,7 @@ public class ReceitaService {
         Iterable<Receita> cervejaList = getAllReceitas();
         for (Receita receitaObj : cervejaList) {
             if (receitaRequest.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim().equals(receitaObj.getNomeDaCerveja().toLowerCase(Locale.ROOT).trim())) {
-                return new ResponseEntity<>(new ApiError(200, "Receita ja cadastrada", "create ok"), HttpStatus.OK);
+                return new ResponseEntity<>(new ApiError(200, ReceitaEnum.RECEITA_JA_CADASTRADA.getName(), "create ok"), HttpStatus.OK);
             }
         }
         try {
@@ -44,7 +45,7 @@ public class ReceitaService {
             return new ResponseEntity<>(new ApiError(200, "Receita " + receitaRequest.getNomeDaCerveja() + " cadastrada com sucesso", "create ok"), HttpStatus.OK);
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "Nome da cerveja Obrigatório", e);
+                    HttpStatus.BAD_REQUEST, ReceitaEnum.NOME_DA_CERVEJA_OBRIGATORIO.getName(), e);
         }
     }
 
@@ -52,8 +53,8 @@ public class ReceitaService {
         return this.receitaRepository.findAll();
     }
 
-    public Optional<Receita> getReceitaById(Integer id) {
-        Optional<Receita> receitaRepositoryById = this.receitaRepository.findById(id);
+    public Optional<Receita> getReceitaById(long id) {
+        Optional<Receita> receitaRepositoryById = this.receitaRepository.findById((int) id);
 
         try {
             if (receitaRepositoryById.isEmpty()) {
@@ -63,7 +64,7 @@ public class ReceitaService {
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "${RECEITA_NOT_FOUND}", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.RECEITA_NOT_FOUND.getName(), e);
         }
     }
 
@@ -78,7 +79,7 @@ public class ReceitaService {
             throw new ResourceNotFoundException();
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "${RECEITA_NOT_FOUND}", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.RECEITA_NOT_FOUND.getName(), e);
         }
     }
 
@@ -149,7 +150,7 @@ public class ReceitaService {
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Receita Not Found", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.RECEITA_NOT_FOUND.getName(), e);
         }
     }
 
@@ -166,7 +167,7 @@ public class ReceitaService {
             }
         } catch (ResourceNotFoundException e) {
             throw new ResourceNotFoundException(
-                    HttpStatus.NOT_FOUND, "Receita Not Found", e);
+                    HttpStatus.NOT_FOUND, ReceitaEnum.RECEITA_NOT_FOUND.getName(), e);
         }
     }
 
