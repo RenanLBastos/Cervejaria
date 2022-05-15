@@ -93,58 +93,58 @@ public class ReceitaService {
                 Receita receitaToUpdate = receitaToUpdateOptional.get();
 
                 if (p.getNomeDaCerveja() != null) {
-                    receitaToUpdate.setNomeDaCerveja(p.getNomeDaCerveja());
+                    receitaToUpdate.setNomeDaCerveja(this.montaReceitaComponent.montaReceitaRequest(p).getNomeDaCerveja());
                 }
 
                 if (p.getLitros() != null) {
-                    receitaToUpdate.setLitros(p.getLitros());
+                    receitaToUpdate.setLitros(this.montaReceitaComponent.montaReceitaRequest(p).getLitros());
                 }
 
                 if (p.getAbv() != null) {
-                    receitaToUpdate.setAbv(p.getAbv());
+                    receitaToUpdate.setAbv(this.montaReceitaComponent.montaReceitaRequest(p).getAbv());
                 }
 
                 if (p.getIbu() != null) {
-                    receitaToUpdate.setIbu(p.getIbu());
+                    receitaToUpdate.setIbu(this.montaReceitaComponent.montaReceitaRequest(p).getIbu());
                 }
 
                 if (p.getOg() != null) {
-                    receitaToUpdate.setOg(p.getOg());
+                    receitaToUpdate.setOg(this.montaReceitaComponent.montaReceitaRequest(p).getOg());
                 }
 
                 if (p.getFg() != null) {
-                    receitaToUpdate.setFg(p.getFg());
+                    receitaToUpdate.setFg(this.montaReceitaComponent.montaReceitaRequest(p).getFg());
                 }
 
                 if (p.getCor() != null) {
-                    receitaToUpdate.setCor(p.getCor());
+                    receitaToUpdate.setCor(this.montaReceitaComponent.montaReceitaRequest(p).getCor());
                 }
 
                 if (p.getFamilia() != null) {
-                    receitaToUpdate.setFamilia(p.getFamilia());
+                    receitaToUpdate.setFamilia(this.montaReceitaComponent.montaReceitaRequest(p).getFamilia());
                 }
 
                 if (p.getIngredientes() != null && !p.getIngredientes().isEmpty()) {
-                    receitaToUpdate.setIngredienteList(p.getIngredientes());
+                    receitaToUpdate.setIngredienteList(this.montaReceitaComponent.montaReceitaRequest(p).getIngredienteList());
                 }
 
                 if (p.getMostura() != null) {
-                    receitaToUpdate.setMostura(p.getMostura());
+                    receitaToUpdate.setMostura(this.montaReceitaComponent.montaReceitaRequest(p).getMostura());
                 }
 
                 if (p.getFervura() != null && !p.getFervura().isEmpty()) {
-                    receitaToUpdate.setFervuraList(p.getFervura());
+                    receitaToUpdate.setFervuraList(this.montaReceitaComponent.montaReceitaRequest(p).getFervuraList());
                 }
 
                 if (p.getFermentacaoMaturacao() != null && !p.getFermentacaoMaturacao().isEmpty()) {
-                    receitaToUpdate.setFermentacaoMaturacaoList(p.getFermentacaoMaturacao());
+                    receitaToUpdate.setFermentacaoMaturacaoList(this.montaReceitaComponent.montaReceitaRequest(p).getFermentacaoMaturacaoList());
                 }
 
                 if (p.getEnvase() != null) {
-                    receitaToUpdate.setEnvase(p.getEnvase());
+                    receitaToUpdate.setEnvase(this.montaReceitaComponent.montaReceitaRequest(p).getEnvase());
                 }
 
-                this.receitaRepository.save(montaReceitaComponent.montaReceitaRequest(p));
+                this.receitaRepository.save(receitaToUpdate);
 
                 return new ResponseEntity<>(new ApiError(200, "Receida da " + receitaToUpdate.getNomeDaCerveja() + " atualizada com sucesso", "put ok"), HttpStatus.OK);
             }

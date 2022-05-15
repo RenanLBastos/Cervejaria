@@ -16,7 +16,7 @@ import java.util.List;
 public class Receita {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     private Integer id;
 
@@ -88,6 +88,10 @@ public class Receita {
     }
 
     public void setAbv(String abv) {
-        this.abv = abv + "%";
+        if (abv.contains("%")) {
+            this.abv = abv;
+        } else {
+            this.abv = abv + "%";
+        }
     }
 }
