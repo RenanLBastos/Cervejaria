@@ -25,12 +25,12 @@ public class ReceitaService {
 
     private final ReceitaRepository receitaRepository;
 
-    @Autowired
-    private MontaReceitaComponent montaReceitaComponent;
+    private final MontaReceitaComponent montaReceitaComponent;
 
     @Autowired
-    public ReceitaService(ReceitaRepository receitaRepository) {
+    public ReceitaService(ReceitaRepository receitaRepository, MontaReceitaComponent montaReceitaComponent) {
         this.receitaRepository = receitaRepository;
+        this.montaReceitaComponent = montaReceitaComponent;
     }
 
     public ResponseEntity<ApiError> createNewReceita(ReceitaRequest receitaRequest) {
