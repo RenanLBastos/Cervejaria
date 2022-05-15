@@ -56,11 +56,15 @@ public final class ResourceNotFoundException extends RuntimeException {
     /**
      * @deprecated
      */
-    @Deprecated
+    @Deprecated(since = "")
     public Map<String, String> getHeaders() {
         return Collections.emptyMap();
     }
 
+    /**
+     * @deprecated (when, why, etc...)
+     */
+    @Deprecated(since = "")
     public HttpHeaders getResponseHeaders() {
         Map<String, String> headers = this.getHeaders();
         if (headers.isEmpty()) {

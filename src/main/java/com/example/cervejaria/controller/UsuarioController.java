@@ -46,7 +46,7 @@ public class UsuarioController {
     }
 
     @PostMapping("/registrar/api/v1")
-    public ResponseEntity<ApiError> createNewUsuario(@Valid @RequestBody UsuarioRequest usuarioRequest) throws Exception {
+    public ResponseEntity<ApiError> createNewUsuario(@Valid @RequestBody UsuarioRequest usuarioRequest) {
         return this.usuarioService.createNewusuario(usuarioRequest);
     }
 

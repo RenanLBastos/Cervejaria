@@ -1,13 +1,13 @@
-package com.example.cervejaria;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class ReceitaApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package com.example.cervejaria;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class ReceitaApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}
