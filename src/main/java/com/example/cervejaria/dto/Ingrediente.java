@@ -2,6 +2,7 @@ package com.example.cervejaria.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,8 +22,9 @@ public class Ingrediente {
 
     //Ingredientes da receita, Maltes, Lupulos, Pastilhas, Frutas
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @JsonProperty("ingrediente")
     @Column(name = "ingrediente", nullable = false)
-    private String ingrediente;
+    private String ingredientes;
 
     //Quantida, peso, KG, g, pacote
     @JsonInclude(JsonInclude.Include.NON_NULL)

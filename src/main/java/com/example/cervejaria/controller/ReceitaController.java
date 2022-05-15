@@ -26,7 +26,7 @@ public class ReceitaController {
     }
 
     @PostMapping("/receita/api/v1")
-    public ResponseEntity<ApiError> createNewReceita(@Valid @RequestBody ReceitaRequest receitaRequest) throws Exception {
+    public ResponseEntity<ApiError> createNewReceita(@Valid @RequestBody ReceitaRequest receitaRequest) {
         return this.receitaService.createNewReceita(receitaRequest);
     }
 
