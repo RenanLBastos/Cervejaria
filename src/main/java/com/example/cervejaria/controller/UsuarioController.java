@@ -31,7 +31,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-
+    @CrossOrigin(origins = "http://localhost:4200/", maxAge = 3600)
     @PostMapping(value = "/login")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 
