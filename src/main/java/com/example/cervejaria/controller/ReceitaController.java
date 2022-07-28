@@ -8,6 +8,7 @@ import com.example.cervejaria.service.ReceitaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.Optional;
@@ -20,14 +21,17 @@ public class ReceitaController {
     private final ReceitaService receitaService;
 
 
+
+
+
     @Autowired
     public ReceitaController(ReceitaService receitaService) {
         this.receitaService = receitaService;
     }
 
     @PostMapping("/receita/api/v1")
-    public ResponseEntity<ApiError> createNewReceita(@Valid @RequestBody ReceitaRequest receitaRequest) {
-        return this.receitaService.createNewReceita(receitaRequest);
+    public ResponseEntity<ApiError> createNewReceita(@Valid @RequestPart(value = "request") ReceitaRequest receitaRequest, @RequestPart(value = "file") MultipartFile file) {
+        return this.receitaService.createNewReceita(receitaRequest, file);
     }
 
     @GetMapping("/receitas/api/v1")
@@ -46,8 +50,8 @@ public class ReceitaController {
     }
 
     @PutMapping("/receita/{id}/api/v1")
-    public ResponseEntity<ApiError> updateReceita(@PathVariable("id") Integer id, @RequestBody ReceitaRequest p) {
-        return this.receitaService.updateReceita(id, p);
+    public ResponseEntity<ApiError> updateReceita(@PathVariable("id") Integer id, @RequestBody ReceitaRequest p, @RequestPart(value = "file") MultipartFile file) {
+        return this.receitaService.updateReceita(id, p, file);
     }
 
     @DeleteMapping("/receita/{id}/api/v1")

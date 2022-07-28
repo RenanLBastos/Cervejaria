@@ -83,6 +83,10 @@ public class Receita {
     @JoinColumn(name = "ENVASE_ID", referencedColumnName = "ID")
     private Envase envase;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Column(name = "FOTO")
+    private String foto;
+
     public String getAbv() {
         return abv;
     }
