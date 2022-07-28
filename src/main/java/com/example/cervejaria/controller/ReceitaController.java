@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.Optional;
 
 
@@ -46,7 +47,7 @@ public class ReceitaController {
     }
 
     @PutMapping("/receita/{id}/api/v1")
-    public ResponseEntity<ApiError> updateReceita(@PathVariable("id") Integer id, @RequestBody ReceitaRequest p, @RequestPart(value = "file") MultipartFile file) {
+    public ResponseEntity<ApiError> updateReceita(@PathVariable("id") Integer id, @RequestBody ReceitaRequest p, @RequestPart(value = "file") MultipartFile file) throws IOException {
         return this.receitaService.updateReceita(id, p, file);
     }
 

@@ -37,24 +37,6 @@ import java.util.Optional;
 @Service
 public class ReceitaService {
 
-    private AmazonS3 s3client;
-
-    @Value("${amazonProperties.endpointUrl}")
-    private String endpointUrl;
-    @Value("${amazonProperties.bucketName}")
-    private String bucketName;
-    @Value("${amazonProperties.accessKey}")
-    private String accessKey;
-    @Value("${amazonProperties.secretKey}")
-    private String secretKey;
-    @PostConstruct
-    private void initializeAmazon() {
-        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
-        this.s3client = new AmazonS3Client(credentials);
-    }
-
-
-
     private final ReceitaRepository receitaRepository;
 
     private final MontaReceitaComponent montaReceitaComponent;
@@ -78,6 +60,8 @@ public class ReceitaService {
         } catch (DataIntegrityViolationException e) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, ReceitaEnum.NOME_DA_CERVEJA_OBRIGATORIO.getName(), e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
 
@@ -117,7 +101,7 @@ public class ReceitaService {
         }
     }
 
-    public ResponseEntity<ApiError> updateReceita(Integer id, @RequestBody ReceitaRequest p, @Nullable MultipartFile multipartFile) {
+    public ResponseEntity<ApiError> updateReceita(Integer id, ReceitaRequest p, MultipartFile multipartFile) throws IOException {
 
         Optional<Receita> receitaToUpdateOptional = this.receitaRepository.findById(id);
         try {

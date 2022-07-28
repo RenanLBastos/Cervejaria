@@ -7,15 +7,14 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.example.cervejaria.dto.Receita;
+import com.example.cervejaria.enumeration.ReceitaEnum;
 import com.example.cervejaria.request.ReceitaRequest;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Date;
 
 @Component
@@ -23,17 +22,25 @@ public class MontaReceitaComponent {
 
     private AmazonS3 s3client;
 
-    @Value("${amazonProperties.endpointUrl}")
-    private String endpointUrl;
-    @Value("${amazonProperties.bucketName}")
-    private String bucketName;
-    @Value("${amazonProperties.accessKey}")
-    private String accessKey;
-    @Value("${amazonProperties.secretKey}")
-    private String secretKey;
+    private final File endPoint = new File(ReceitaEnum.ENDPOINT.getName());
+    private final BufferedReader br = new BufferedReader(new FileReader(endPoint));
+
+    private final File bucketName = new File(ReceitaEnum.BUCKETNAME.getName());
+    private final BufferedReader brbucketName = new BufferedReader(new FileReader(bucketName));
+
+    private final File accessKey = new File(ReceitaEnum.ACCESSKEY.getName());
+    private final BufferedReader braccessKey = new BufferedReader(new FileReader(accessKey));
+
+    private final File secretKey = new File(ReceitaEnum.SECRETKEY.getName());
+    private final BufferedReader brsecretKey = new BufferedReader(new FileReader(secretKey));
+
+    public MontaReceitaComponent() throws FileNotFoundException {
+        // TODO document why this constructor is empty
+    }
+
     @PostConstruct
-    private void initializeAmazon() {
-        AWSCredentials credentials = new BasicAWSCredentials(this.accessKey, this.secretKey);
+    private void initializeAmazon() throws IOException {
+        AWSCredentials credentials = new BasicAWSCredentials(this.braccessKey.readLine(), this.brsecretKey.readLine());
         this.s3client = new AmazonS3Client(credentials);
     }
 
@@ -49,12 +56,12 @@ public class MontaReceitaComponent {
         return new Date().getTime() + "-" + multiPart.getOriginalFilename().replace(" ", "_");
     }
 
-    private void uploadFileTos3bucket(String fileName, File file) {
-        s3client.putObject(new PutObjectRequest(bucketName, fileName, file)
+    private void uploadFileTos3bucket(String fileName, File file) throws IOException {
+        s3client.putObject(new PutObjectRequest(brbucketName.readLine(), fileName, file)
                 .withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
-    public Receita montaReceitaRequest(ReceitaRequest receitaRequest, MultipartFile multipartFile) {
+    public Receita montaReceitaRequest(ReceitaRequest receitaRequest, MultipartFile multipartFile) throws IOException {
         Receita novaReceita = new Receita();
         novaReceita.setNomeDaCerveja(receitaRequest.getNomeDaCerveja());
         novaReceita.setLitros(receitaRequest.getLitros());
@@ -74,6 +81,7 @@ public class MontaReceitaComponent {
 
         String fileUrl = "";
         try {
+            String endpointUrl = br.readLine();
             File file = convertMultiPartToFile(multipartFile);
             String fileName = generateFileName(multipartFile);
             fileUrl = endpointUrl + "/" + fileName;
