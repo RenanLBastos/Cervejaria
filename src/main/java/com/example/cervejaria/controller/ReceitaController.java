@@ -20,10 +20,6 @@ public class ReceitaController {
 
     private final ReceitaService receitaService;
 
-
-
-
-
     @Autowired
     public ReceitaController(ReceitaService receitaService) {
         this.receitaService = receitaService;

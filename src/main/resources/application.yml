@@ -1,7 +1,7 @@
 amazonProperties:
   endpointUrl: https://fotoscervejaria.s3.sa-east-1.amazonaws.com
-  accessKey: AKIAZFFVAUHP3OSJKLXV
-  secretKey: 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
+  accessKey: ${env.ACCESS_KEY}
+  secretKey: ${env.SECRET_KEY}
   bucketName: fotoscervejaria
 spring:
   sql:
@@ -20,6 +20,9 @@ server:
   port: 8080
 jwt:
   secret: javainuse
+env:
+  ACCESS_KEY: AKIAZFFVAUHP3OSJKLXV
+  SECRET_KEY: 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
 #  spring.datasource.driverClassName=com.mysql.cj.jdbc.Driver
 #  spring.datasource.url=jdbc:mysql://localhost:3306/cervejaria?createDatabaseIfNotExist=true
 #  spring.datasource.username=root
